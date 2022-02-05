@@ -1,0 +1,62 @@
+version: "3.9"
+services: 
+    web01:
+        build: 
+            context: ./
+            dockerfile: ./web01.Dockerfile
+        hostname: web01.${PUBLIC_DOMAIN}
+        restart: on-failure
+        ports:
+            - "${PUBLIC_ADDRESS}:80:80"
+            - "${PUBLIC_ADDRESS}:443:443"
+            - "${PUBLIC_ADDRESS}:47080:7080"
+        depends_on:
+            - redis
+            - mariadb
+        volumes:
+            - srv:/srv
+            - ./web01/conf:/usr/local/lsws/conf
+            - w1_logs:/var/log
+            - shared_uds:/run/shared
+        environment:
+            OLS_ADMIN_PASSWORD: ${OLS_ADMIN_PASSWORD}
+            OLS_ADMIN_USERNAME: ${OLS_ADMIN_USERNAME}
+    jsvc:
+        build: 
+            context: ./
+            dockerfile: ./jsvc.Dockerfile
+        hostname: j01.${PUBLIC_DOMAIN}
+        restart: on-failure
+        depends_on:
+            - mariadb
+        volumes:
+            - docs:/docs
+            - shared_uds:/run/shared
+    redis:
+        image: redis:latest
+        hostname: r01.${PUBLIC_DOMAIN}
+        volumes:
+            - redis_logs:/var/log
+    mariadb:
+        image: mariadb:latest
+        restart: 'always'
+        volumes: 
+            - 'db:/var/lib/mysql'
+            - 'db_logs:/var/log/mysql'
+        environment:
+            MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+            MYSQL_DATABASE: "${MYSQL_DATABASE}"
+            MYSQL_USER: "${MYSQL_USER}"
+            MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+volumes:
+    db: 
+        name: "quillsigner-data"
+    srv:
+        name: "quillsigner-web"
+    docs: 
+        name: "quillsigner-docs"
+    w1_logs: {}
+    db_logs: {}
+    redis_logs: {}
+    shared_uds: 
+        name: "quillsigner-uds"

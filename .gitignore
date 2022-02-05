@@ -1,0 +1,9 @@
+.env
+.env.dev
+
+# OpenLiteSpeed Backup Configs
+web*/conf/**/*0
+web*/conf/**/*0,v
+web*/conf/**/*.txt
+web*/conf/**/vhconf.conf.bak
+web*/conf/httpd_config.conf.bak
