@@ -11,6 +11,7 @@ services:
             - "${PUBLIC_ADDRESS}:443:443"
             - "${PUBLIC_ADDRESS}:47080:7080"
         depends_on:
+            - jsvc
             - redis
             - mariadb
         volumes:
@@ -39,6 +40,9 @@ services:
             - redis_logs:/var/log
     mariadb:
         image: mariadb:latest
+        hostname: db01.${PUBLIC_DOMAIN}
+        ports:
+            - "${PUBLIC_ADDRESS}:53306:3306"
         restart: 'always'
         volumes: 
             - 'db:/var/lib/mysql'
