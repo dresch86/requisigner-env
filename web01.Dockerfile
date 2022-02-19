@@ -35,7 +35,7 @@ RUN chmod +x "/composer-installer.sh" && /composer-installer.sh && mv composer.p
 RUN rm -rf /usr/local/lsws/Example
 
 # Create necessary users for lsphp suexec
-RUN useradd -M -s /bin/bash quillsigner
+RUN useradd -M -s /bin/bash requisigner
 
 # Create Litespeed required directories
 RUN mkdir --parents \
@@ -47,8 +47,8 @@ RUN mkdir --parents \
 
 # Fix ownership on OpenLiteSpeed directories
 RUN chown --recursive "lsadm:root" "/usr/local/lsws/conf"
-RUN chown --recursive "quillsigner:quillsigner" "/tmp/lshttpd"
-RUN chown --recursive "quillsigner:quillsigner" "/usr/local/lsws/logs"
+RUN chown --recursive "requisigner:requisigner" "/tmp/lshttpd"
+RUN chown --recursive "requisigner:requisigner" "/usr/local/lsws/logs"
 
 # Fix permissions on OpenLiteSpeed
 RUN chmod 750 "/usr/local/lsws/conf"

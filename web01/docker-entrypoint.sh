@@ -2,17 +2,17 @@
 set -e
 
 # Make sure web user's home directory exists
-mkdir --parents /srv/quillsigner.io
+mkdir --parents /srv/requisigner.io
 
 # Reset web server user's home directory
-usermod -d /srv/quillsigner.io quillsigner
-chown --recursive quillsigner:quillsigner /srv/quillsigner.io
+usermod -d /srv/requisigner.io requisigner
+chown --recursive requisigner:requisigner /srv/requisigner.io
 
 # Make sure OLS log directory exists
 mkdir --parents /var/log/openlitespeed
 
 # Adjust permissions on web server directories
-chown --recursive quillsigner:quillsigner /var/log/openlitespeed
+chown --recursive requisigner:requisigner /var/log/openlitespeed
 
 # Update the credentials
 if [ -n "${OLS_ADMIN_PASSWORD}" ] 

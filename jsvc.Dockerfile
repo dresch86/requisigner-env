@@ -21,10 +21,10 @@ RUN wget https://services.gradle.org/distributions/gradle-7.3.3-bin.zip -P /tmp 
 ENV GRADLE_HOME=/opt/gradle/latest
 
 # Path to where app service will reside
-RUN mkdir -p /opt/quillsigner
+RUN mkdir -p /opt/requisigner
 
 # Create user for running commands
-RUN useradd -d /opt/quillsigner -s /bin/bash quillsigner
+RUN useradd -d /opt/requisigner -s /bin/bash requisigner
 
 # Setup Docker entry point
 COPY jsvc/docker-entrypoint.sh /docker-entrypoint.sh

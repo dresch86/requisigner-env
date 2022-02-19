@@ -54,13 +54,13 @@ services:
             MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
 volumes:
     db: 
-        name: "quillsigner-data"
+        name: "requisigner-data"
     srv:
-        name: "quillsigner-web"
+        name: "requisigner-web"
     docs: 
-        name: "quillsigner-docs"
+        name: "requisigner-docs"
     w1_logs: {}
     db_logs: {}
     redis_logs: {}
     shared_uds: 
-        name: "quillsigner-uds"
+        name: "requisigner-uds"
