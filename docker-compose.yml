@@ -31,6 +31,7 @@ services:
         depends_on:
             - mariadb
         volumes:
+            - srv:/srv
             - docs:/docs
             - shared_uds:/run/shared
     redis:
