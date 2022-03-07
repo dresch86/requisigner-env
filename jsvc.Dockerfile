@@ -1,12 +1,15 @@
+ARG TIMEZONE
+ARG LINUX_USER_PASSWORD
+
 FROM ubuntu:focal
 LABEL description="A container for running OpenLiteSpeed web server."
 
 ENV TZ=America/New_York
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && echo ${TZ} > /etc/timezone
 
 # Update and install basic packages
 RUN apt-get update && apt-get -y install git curl wget nano software-properties-common \
-tzdata procps apt-utils unzip
+tzdata procps apt-utils unzip openssh-server supervisor
 
 # Install OpenJDK Java
 RUN add-apt-repository -y ppa:openjdk-r/ppa && apt-get update \
@@ -19,15 +22,22 @@ RUN wget https://services.gradle.org/distributions/gradle-7.3.3-bin.zip -P /tmp 
 
 # Set Gradle Home
 ENV GRADLE_HOME=/opt/gradle/latest
+ENV PATH="$PATH:/opt/gradle/latest/bin"
 
 # Path to where app service will reside
 RUN mkdir -p /opt/requisigner
 
+# Logs for supervisor
+RUN mkdir -p /var/log/supervisor
+
 # Create user for running commands
-RUN useradd -d /opt/requisigner -s /bin/bash requisigner
+RUN useradd -d /opt/requisigner -s /bin/bash requisigner && echo "root:Password123!" | chpasswd
 
-# Setup Docker entry point
-COPY jsvc/docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x "/docker-entrypoint.sh"
+# Copy supervisor config file
+COPY jsvc/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-ENTRYPOINT ./docker-entrypoint.sh
+# Setup OpenSSH
+RUN mkdir -p /run/sshd
+COPY jsvc/sshd_config /etc/ssh/sshd_config
+
+CMD ["/usr/bin/supervisord"]

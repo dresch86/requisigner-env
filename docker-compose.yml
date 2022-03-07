@@ -4,6 +4,9 @@ services:
         build: 
             context: ./
             dockerfile: ./web01.Dockerfile
+            args:
+                - TIMEZONE=${TIMEZONE}
+                - LINUX_USER_PASSWORD=${LINUX_USER_PASSWORD}
         hostname: web01.${PUBLIC_DOMAIN}
         restart: on-failure
         ports:
@@ -26,11 +29,17 @@ services:
         build: 
             context: ./
             dockerfile: ./jsvc.Dockerfile
+            args:
+                - TIMEZONE=${TIMEZONE}
+                - LINUX_USER_PASSWORD=${LINUX_USER_PASSWORD}
         hostname: j01.${PUBLIC_DOMAIN}
+        ports:
+            - "${PUBLIC_ADDRESS}:22220:22"
         restart: on-failure
         depends_on:
             - mariadb
         volumes:
+            - jms:/opt/requisigner/dev
             - srv:/srv
             - docs:/docs
             - shared_uds:/run/shared
@@ -58,6 +67,8 @@ volumes:
         name: "requisigner-data"
     srv:
         name: "requisigner-web"
+    jms: 
+        name: "requisigner-jms"
     docs: 
         name: "requisigner-docs"
     w1_logs: {}

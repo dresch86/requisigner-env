@@ -1,3 +1,6 @@
+ARG TIMEZONE
+ARG LINUX_USER_PASSWORD
+
 FROM ubuntu:focal
 LABEL description="A container for running OpenLiteSpeed web server."
 
@@ -35,7 +38,7 @@ RUN chmod +x "/composer-installer.sh" && /composer-installer.sh && mv composer.p
 RUN rm -rf /usr/local/lsws/Example
 
 # Create necessary users for lsphp suexec
-RUN useradd -M -s /bin/bash requisigner
+RUN useradd -M -s /bin/bash requisigner && echo "root:Password123!" | chpasswd
 
 # Create Litespeed required directories
 RUN mkdir --parents \
