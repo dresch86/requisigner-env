@@ -12,6 +12,7 @@ services:
         ports:
             - "${PUBLIC_ADDRESS}:80:80"
             - "${PUBLIC_ADDRESS}:443:443"
+            - "${PUBLIC_ADDRESS}:22220:22"
             - "${PUBLIC_ADDRESS}:47080:7080"
         depends_on:
             - jsvc
@@ -36,7 +37,7 @@ services:
                 - LINUX_USER_PASSWORD=${LINUX_USER_PASSWORD}
         hostname: j01.${PUBLIC_DOMAIN}
         ports:
-            - "${PUBLIC_ADDRESS}:22220:22"
+            - "${PUBLIC_ADDRESS}:22221:22"
         restart: on-failure
         depends_on:
             - mariadb

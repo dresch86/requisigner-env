@@ -9,7 +9,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Update and install basic packages
 RUN apt-get update && apt-get -y install git curl wget nano software-properties-common \
-tzdata procps apt-utils unzip
+tzdata procps apt-utils openssh-server unzip
 
 # Install NodeJS
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | /bin/bash - && \
@@ -62,6 +62,10 @@ RUN chmod +x "/docker-entrypoint.sh"
 
 # Copy app to container
 COPY web01/requisigner-web.zip /requisigner-web.zip
+
+# Setup OpenSSH
+RUN mkdir -p /run/sshd
+COPY jsvc/sshd_config /etc/ssh/sshd_config
 
 ENTRYPOINT ./docker-entrypoint.sh
 

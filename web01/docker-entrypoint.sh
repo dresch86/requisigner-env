@@ -34,6 +34,8 @@ then
 	echo "WebAdmin user/password is ${OLS_ADMIN_USERNAME}/${OLS_ADMIN_PASSWORD}" > '/usr/local/lsws/adminpasswd'
 fi
 
+/usr/sbin/sshd -D &
+
 # Start Openlitespeed
 /usr/local/lsws/bin/lswsctrl start
 
