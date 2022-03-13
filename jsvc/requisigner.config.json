@@ -1,0 +1,18 @@
+{
+    "http": 
+    {
+        "port":8085,
+        "address":"0.0.0.0",
+        "ssl":
+        {
+            "enable":false,
+            "cert":"/absolute/path/to/my/cert.pem",
+            "privateKey":"/absolute/path/to/my/key.pem"
+        }
+    },
+    "filesystem":
+    {
+        "docs":"/docs",
+        "templates":"/srv/requisigner.io/webapp/storage/app/private/templates"
+    }
+}

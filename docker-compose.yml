@@ -19,10 +19,12 @@ services:
             - mariadb
         volumes:
             - srv:/srv
+            - docs:${PDF_DOCUMENTS_DIR}
             - ./web01/conf:/usr/local/lsws/conf
             - w1_logs:/var/log
             - shared_uds:/run/shared
         environment:
+            PDF_DOCUMENTS_DIR: ${PDF_DOCUMENTS_DIR}
             OLS_ADMIN_PASSWORD: ${OLS_ADMIN_PASSWORD}
             OLS_ADMIN_USERNAME: ${OLS_ADMIN_USERNAME}
     jsvc:
@@ -41,7 +43,7 @@ services:
         volumes:
             - jms:/opt/requisigner/dev
             - srv:/srv
-            - docs:/docs
+            - docs:${PDF_DOCUMENTS_DIR}
             - shared_uds:/run/shared
     redis:
         image: redis:latest

@@ -27,11 +27,15 @@ ENV PATH="$PATH:/opt/gradle/latest/bin"
 # Path to where app service will reside
 RUN mkdir -p /opt/requisigner
 
+# Requisigner microservice configuration
+COPY jsvc/requisigner.config.json /opt/requisigner/config.json
+COPY jsvc/requisigner-java.jar /opt/requisigner/requisigner-java.jar
+
 # Logs for supervisor
 RUN mkdir -p /var/log/supervisor
 
 # Create user for running commands
-RUN useradd -d /opt/requisigner -s /bin/bash requisigner && echo "root:Password123!" | chpasswd
+RUN useradd -d /opt/requisigner -s /bin/bash -u 1000 requisigner && echo "root:Password123!" | chpasswd
 
 # Copy supervisor config file
 COPY jsvc/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

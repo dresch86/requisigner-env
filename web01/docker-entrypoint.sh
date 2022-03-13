@@ -14,6 +14,9 @@ mkdir --parents /var/log/openlitespeed
 # Adjust permissions on web server directories
 chown --recursive requisigner:requisigner /var/log/openlitespeed
 
+# Make sure webserver can write to document folder
+chown --recursive requisigner:requisigner ${PDF_DOCUMENTS_DIR}
+
 # Update the credentials
 if [ -n "${OLS_ADMIN_PASSWORD}" ] 
 then
