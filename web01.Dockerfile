@@ -60,6 +60,9 @@ RUN chmod 750 "/usr/local/lsws/conf"
 COPY web01/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x "/docker-entrypoint.sh"
 
+# Copy app to container
+COPY web01/requisigner-web.zip /requisigner-web.zip
+
 ENTRYPOINT ./docker-entrypoint.sh
 
 # Setup the health checking

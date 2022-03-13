@@ -17,6 +17,15 @@ chown --recursive requisigner:requisigner /var/log/openlitespeed
 # Make sure webserver can write to document folder
 chown --recursive requisigner:requisigner ${PDF_DOCUMENTS_DIR}
 
+# Install web app
+if [ ! -d "/srv/requisigner.io/webapp" ]; then
+	unzip -q /requisigner-web.zip /srv/requisigner.io/ && \
+	mv /srv/requisigner.io/requisigner-web-master /srv/requisigner.io/webapp && \
+	chown --recursive requisigner:requisigner /srv/requisigner.io/webapp
+else
+   echo "App is already installed!"
+fi
+
 # Update the credentials
 if [ -n "${OLS_ADMIN_PASSWORD}" ] 
 then
